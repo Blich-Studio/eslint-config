@@ -192,6 +192,15 @@ export const vue = (options = {}) =>
         'vue/v-bind-style': ['error', 'shorthand'],
         'vue/v-on-style': ['error', 'shorthand'],
         'vue/v-slot-style': ['error', 'shorthand'],
+        // Formatting handled by Prettier
+        'vue/max-attributes-per-line': 'off',
+        'vue/first-attribute-linebreak': 'off',
+        'vue/html-indent': 'off',
+        'vue/html-closing-bracket-newline': 'off',
+        'vue/multiline-html-element-content-newline': 'off',
+        'vue/singleline-html-element-content-newline': 'off',
+        'vue/html-self-closing': 'off',
+        'vue/attributes-order': 'off',
       },
     },
     options
