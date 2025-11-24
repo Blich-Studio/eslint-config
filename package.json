@@ -4,6 +4,9 @@
   "private": true,
   "type": "module",
   "main": "index.js",
+  "scripts": {
+    "lint": "eslint . --ext .js,.ts,.mjs"
+  },
   "dependencies": {
     "@eslint/js": "^9.9.0",
     "@typescript-eslint/eslint-plugin": "^8.0.0",
