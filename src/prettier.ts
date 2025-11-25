@@ -1,6 +1,6 @@
-/** @type {import("prettier").Config} */
-export default {
-  // Core formatting options
+import type { Config } from 'prettier'
+
+export const prettierConfig: Config = {
   printWidth: 100,
   tabWidth: 2,
   useTabs: false,
@@ -12,8 +12,6 @@ export default {
   bracketSameLine: false,
   arrowParens: 'avoid',
   endOfLine: 'lf',
-
-  // Language-specific overrides
   overrides: [
     {
       files: '*.json',
@@ -36,4 +34,6 @@ export default {
       },
     },
   ],
-};
+}
+
+export default prettierConfig
