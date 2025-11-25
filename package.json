@@ -1,24 +1,65 @@
 {
   "name": "@blich-studio/eslint-config",
   "version": "1.0.0",
-  "private": true,
+  "private": false,
+  "license": "UNLICENSED",
   "type": "module",
-  "main": "index.js",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:Blich-Studio/eslint-config.git"
+  },
+  "publishConfig": {
+    "access": "restricted",
+    "registry": "https://npm.pkg.github.com/Blich-Studio"
+  },
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "default": "./dist/index.js"
+    },
+    "./prettier": {
+      "types": "./dist/prettier.d.ts",
+      "default": "./dist/prettier.js"
+    },
+    "./prettier.config": "./dist/prettier.js",
+    "./prettier.config.js": "./dist/prettier.js"
+  },
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "clean": "rm -rf dist",
+    "build": "bunx tsc --project tsconfig.json",
+    "lint": "bunx eslint src --ext .ts",
+    "typecheck": "bunx tsc --project tsconfig.json --noEmit",
+    "prepare": "husky",
+    "release": "bunx semantic-release",
+    "release:dry": "bunx semantic-release --dry-run"
+  },
   "dependencies": {
-    "@eslint/js": "^9.9.0",
-    "@typescript-eslint/eslint-plugin": "^8.0.0",
-    "@typescript-eslint/parser": "^8.0.0",
-    "eslint": "^9.9.0",
+    "@eslint/js": "^9.39.0",
+    "@typescript-eslint/utils": "^8.48.0",
     "eslint-config-prettier": "^9.1.0",
     "eslint-plugin-prettier": "^5.2.1",
-    "eslint-plugin-vue": "^9.27.0",
     "globals": "^15.9.0",
-    "prettier": "^3.3.0",
-    "typescript-eslint": "^8.0.0",
-    "vue-eslint-parser": "^9.4.3"
+    "prettier": "^3.3.3",
+    "typescript-eslint": "^8.48.0"
   },
   "peerDependencies": {
-    "eslint": "^9.9.0",
-    "prettier": "^3.3.0"
+    "eslint": "^9.39.0",
+    "prettier": "^3.3.3"
+  },
+  "devDependencies": {
+    "@commitlint/cli": "^20.1.0",
+    "@commitlint/config-conventional": "^20.0.0",
+    "@semantic-release/changelog": "^6.0.3",
+    "@semantic-release/git": "^10.0.1",
+    "@types/node": "^24.10.0",
+    "eslint": "^9.39.0",
+    "husky": "^9.1.7",
+    "semantic-release": "^25.0.2",
+    "typescript": "^5.8.3"
   }
 }
