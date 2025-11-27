@@ -18,8 +18,8 @@ fi
 # Get current version
 CURRENT_VERSION=$(node -p "require('./package.json').version")
 
-# Bump version
-bun version "$VERSION_TYPE" --no-git-tag-version
+# Bump version using npm
+npm version "$VERSION_TYPE" --no-git-tag-version --allow-same-version
 
 NEW_VERSION=$(node -p "require('./package.json').version")
 
