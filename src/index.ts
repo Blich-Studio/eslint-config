@@ -1,59 +1,65 @@
-import eslint from '@eslint/js'
-import type { FlatConfig } from '@typescript-eslint/utils/ts-eslint'
-import eslintConfigPrettier from 'eslint-config-prettier'
-import eslintPluginPrettier from 'eslint-plugin-prettier'
-import globals from 'globals'
-import tseslint from 'typescript-eslint'
-import prettierConfig from './prettier.js'
+import eslint from "@eslint/js";
+import type { FlatConfig } from "@typescript-eslint/utils/ts-eslint";
+import eslintConfigPrettier from "eslint-config-prettier";
+import eslintPluginPrettier from "eslint-plugin-prettier";
+import globals from "globals";
+import tseslint from "typescript-eslint";
+import prettierConfig from "./prettier.js";
 
-type ConfigInput = FlatConfig.Config | FlatConfig.ConfigArray | undefined
+type ConfigInput = FlatConfig.Config | FlatConfig.ConfigArray | undefined;
 
 const toConfigArray = (config?: ConfigInput): FlatConfig.ConfigArray => {
   if (!config) {
-    return []
+    return [];
   }
 
-  return Array.isArray(config) ? config : [config]
-}
+  return Array.isArray(config) ? config : [config];
+};
 
-const prettierCompatibilityConfig = eslintConfigPrettier as FlatConfig.Config
-const prettierPlugin = eslintPluginPrettier as FlatConfig.Plugin
-const prettierRuleEntry: FlatConfig.RuleEntry = ['warn', prettierConfig as unknown]
+const prettierCompatibilityConfig = eslintConfigPrettier as FlatConfig.Config;
+const prettierPlugin = eslintPluginPrettier as FlatConfig.Plugin;
+const prettierRuleEntry: FlatConfig.RuleEntry = [
+  "warn",
+  { ...prettierConfig, severity: 1 },
+];
 
 const sharedRules: FlatConfig.Rules = {
-  '@typescript-eslint/array-type': ['error', { default: 'array-simple' }],
-  '@typescript-eslint/await-thenable': 'error',
-  '@typescript-eslint/consistent-type-definitions': ['error', 'interface'],
-  '@typescript-eslint/consistent-type-imports': ['error', { prefer: 'type-imports' }],
-  '@typescript-eslint/explicit-function-return-type': 'off',
-  '@typescript-eslint/explicit-module-boundary-types': 'off',
-  '@typescript-eslint/dot-notation': [
-    'error',
+  "@typescript-eslint/array-type": ["error", { default: "array-simple" }],
+  "@typescript-eslint/await-thenable": "error",
+  "@typescript-eslint/consistent-type-definitions": ["error", "interface"],
+  "@typescript-eslint/consistent-type-imports": [
+    "error",
+    { prefer: "type-imports" },
+  ],
+  "@typescript-eslint/explicit-function-return-type": "off",
+  "@typescript-eslint/explicit-module-boundary-types": "off",
+  "@typescript-eslint/dot-notation": [
+    "error",
     {
       allowKeywords: true,
-      allowPattern: '',
+      allowPattern: "",
     },
   ],
-  '@typescript-eslint/member-ordering': [
-    'error',
+  "@typescript-eslint/member-ordering": [
+    "error",
     {
-      default: ['signature', 'field', 'constructor', 'method'],
+      default: ["signature", "field", "constructor", "method"],
     },
   ],
-  '@typescript-eslint/no-confusing-void-expression': 'error',
-  '@typescript-eslint/no-empty-function': [
-    'error',
+  "@typescript-eslint/no-confusing-void-expression": "error",
+  "@typescript-eslint/no-empty-function": [
+    "error",
     {
       allow: [],
     },
   ],
-  '@typescript-eslint/no-floating-promises': 'error',
-  '@typescript-eslint/no-explicit-any': 'warn',
-  '@typescript-eslint/no-misused-promises': 'error',
-  '@typescript-eslint/no-non-null-assertion': 'warn',
-  '@typescript-eslint/no-unnecessary-condition': 'error',
-  '@typescript-eslint/no-unused-expressions': [
-    'error',
+  "@typescript-eslint/no-floating-promises": "error",
+  "@typescript-eslint/no-explicit-any": "warn",
+  "@typescript-eslint/no-misused-promises": "error",
+  "@typescript-eslint/no-non-null-assertion": "warn",
+  "@typescript-eslint/no-unnecessary-condition": "error",
+  "@typescript-eslint/no-unused-expressions": [
+    "error",
     {
       allowShortCircuit: false,
       allowTernary: false,
@@ -61,31 +67,31 @@ const sharedRules: FlatConfig.Rules = {
       enforceForJSX: true,
     },
   ],
-  '@typescript-eslint/no-unused-vars': [
-    'error',
+  "@typescript-eslint/no-unused-vars": [
+    "error",
     {
-      argsIgnorePattern: '^_',
-      varsIgnorePattern: '^_',
-      caughtErrorsIgnorePattern: '^_',
+      argsIgnorePattern: "^_",
+      varsIgnorePattern: "^_",
+      caughtErrorsIgnorePattern: "^_",
     },
   ],
-  '@typescript-eslint/prefer-as-const': 'error',
-  '@typescript-eslint/prefer-destructuring': 'error',
-  '@typescript-eslint/prefer-nullish-coalescing': 'error',
-  '@typescript-eslint/prefer-optional-chain': 'error',
-  '@typescript-eslint/require-await': 'error',
-}
+  "@typescript-eslint/prefer-as-const": "error",
+  "@typescript-eslint/prefer-destructuring": "error",
+  "@typescript-eslint/prefer-nullish-coalescing": "error",
+  "@typescript-eslint/prefer-optional-chain": "error",
+  "@typescript-eslint/require-await": "error",
+};
 
 const sharedSegments: FlatConfig.ConfigArray = [
   {
     ignores: [
-      'dist/**',
-      'node_modules/**',
-      '*.config.js',
-      '*.config.mjs',
-      '*.config.ts',
-      'coverage/**',
-      '.turbo/**',
+      "dist/**",
+      "node_modules/**",
+      "*.config.js",
+      "*.config.mjs",
+      "*.config.ts",
+      "coverage/**",
+      ".turbo/**",
     ],
   },
   eslint.configs.recommended,
@@ -97,11 +103,11 @@ const sharedSegments: FlatConfig.ConfigArray = [
       prettier: prettierPlugin,
     },
     rules: {
-      'prettier/prettier': prettierRuleEntry,
+      "prettier/prettier": prettierRuleEntry,
     },
   },
   {
-    files: ['**/*.ts', '**/*.tsx'],
+    files: ["**/*.ts", "**/*.tsx"],
     languageOptions: {
       globals: {
         ...globals.browser,
@@ -110,14 +116,18 @@ const sharedSegments: FlatConfig.ConfigArray = [
     },
     rules: sharedRules,
   },
-]
+];
 
-export const sharedConfig: FlatConfig.ConfigArray = tseslint.config(...sharedSegments)
+export const sharedConfig: FlatConfig.ConfigArray = tseslint.config(
+  ...sharedSegments
+);
 
-export const defineSharedConfig = (...overrides: ConfigInput[]): FlatConfig.ConfigArray =>
-  tseslint.config(...sharedSegments, ...overrides.flatMap(toConfigArray))
+export const defineSharedConfig = (
+  ...overrides: ConfigInput[]
+): FlatConfig.ConfigArray =>
+  tseslint.config(...sharedSegments, ...overrides.flatMap(toConfigArray));
 
-export { prettierConfig }
-export type { FlatConfig }
+export { prettierConfig };
+export type { FlatConfig };
 
-export default defineSharedConfig
+export default defineSharedConfig;
