@@ -35,8 +35,8 @@
     "lint": "bunx eslint src --ext .ts",
     "typecheck": "bunx tsc --project tsconfig.json --noEmit",
     "prepare": "husky",
-    "release": "bunx semantic-release",
-    "release:dry": "bunx semantic-release --dry-run"
+    "release": "bunx --bun semantic-release",
+    "release:dry": "bunx --bun semantic-release --dry-run"
   },
   "dependencies": {
     "@eslint/js": "^9.39.0",
