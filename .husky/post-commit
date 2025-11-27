@@ -1,5 +1,10 @@
 #!/bin/sh
 
+# Skip if we're already amending to prevent infinite loop
+if [ -n "$HUSKY_SKIP_AMEND" ]; then
+  exit 0
+fi
+
 # Get the last commit message from current branch
 LAST_MSG=$(git log -1 --pretty=%B 2>/dev/null || echo "")
 
@@ -19,12 +24,13 @@ fi
 CURRENT_VERSION=$(node -p "require('./package.json').version")
 
 # Bump version using npm
-npm version "$VERSION_TYPE" --no-git-tag-version --allow-same-version
+npm version "$VERSION_TYPE" --no-git-tag-version --allow-same-version 2>/dev/null
 
 NEW_VERSION=$(node -p "require('./package.json').version")
 
-# Only stage if version changed
+# Only amend if version changed
 if [ "$CURRENT_VERSION" != "$NEW_VERSION" ]; then
   git add package.json
+  HUSKY_SKIP_AMEND=1 git commit --amend --no-edit --no-verify
   echo "✓ Version bumped: $CURRENT_VERSION → $NEW_VERSION ($VERSION_TYPE)"
 fi
