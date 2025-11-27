@@ -1,6 +1,6 @@
 {
   "name": "@blich-studio/eslint-config",
-  "version": "1.0.33",
+  "version": "1.1.0",
   "private": false,
   "license": "UNLICENSED",
   "type": "module",
@@ -57,6 +57,7 @@
     "@semantic-release/changelog": "^6.0.3",
     "@semantic-release/git": "^10.0.1",
     "@types/node": "^24.10.0",
+    "conventional-changelog-cli": "^5.0.0",
     "eslint": "^9.39.0",
     "husky": "^9.1.7",
     "semantic-release": "^25.0.2",

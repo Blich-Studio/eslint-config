@@ -30,7 +30,11 @@ NEW_VERSION=$(node -p "require('./package.json').version")
 
 # Only amend if version changed
 if [ "$CURRENT_VERSION" != "$NEW_VERSION" ]; then
-  git add package.json
+  # Generate changelog
+  npx conventional-changelog -p angular -i CHANGELOG.md -s 2>/dev/null
+  
+  git add package.json CHANGELOG.md
   HUSKY_SKIP_AMEND=1 git commit --amend --no-edit --no-verify
   echo "✓ Version bumped: $CURRENT_VERSION → $NEW_VERSION ($VERSION_TYPE)"
+  echo "✓ CHANGELOG.md updated"
 fi
