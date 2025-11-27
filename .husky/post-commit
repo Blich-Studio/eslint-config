@@ -1,0 +1,36 @@
+#!/bin/sh
+
+# Skip if we're already amending to prevent infinite loop
+if [ -n "$HUSKY_SKIP_AMEND" ]; then
+  exit 0
+fi
+
+# Get the last commit message from current branch
+LAST_MSG=$(git log -1 --pretty=%B 2>/dev/null || echo "")
+
+# Determine version bump from commit message
+if echo "$LAST_MSG" | grep -qE "^(feat|feature)(\(.+\))?!:|^[A-Za-z]+(\(.+\))?!:|BREAKING CHANGE:"; then
+  VERSION_TYPE="major"
+elif echo "$LAST_MSG" | grep -qE "^feat(\(.+\))?:"; then
+  VERSION_TYPE="minor"
+elif echo "$LAST_MSG" | grep -qE "^fix(\(.+\))?:"; then
+  VERSION_TYPE="patch"
+else
+  # No version bump for other commit types (chore, docs, style, refactor, etc.)
+  exit 0
+fi
+
+# Get current version
+CURRENT_VERSION=$(node -p "require('./package.json').version")
+
+# Bump version using npm
+npm version "$VERSION_TYPE" --no-git-tag-version --allow-same-version 2>/dev/null
+
+NEW_VERSION=$(node -p "require('./package.json').version")
+
+# Only amend if version changed
+if [ "$CURRENT_VERSION" != "$NEW_VERSION" ]; then
+  git add package.json
+  HUSKY_SKIP_AMEND=1 git commit --amend --no-edit --no-verify
+  echo "✓ Version bumped: $CURRENT_VERSION → $NEW_VERSION ($VERSION_TYPE)"
+fi
